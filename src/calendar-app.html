@@ -21,8 +21,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="my-icons.html">
-<link rel="import" href="../bower_components/polymer-paper-date-picker/paper-date-picker.html">
-<link rel="stylesheet" href="../bower_components/app-layout/app-grid/app-grid-style.html">
 
 <dom-module id="my-app">
   <template>
@@ -59,20 +57,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         font-weight: bold;
       }
     </style>
-<style include="app-grid-style">
 
-    :host {
-      --app-grid-columns: 3;
-      --app-grid-item-height: 100px;
-    }
-
-    @media (max-width: 640px) {
-      :host {
-        --app-grid-columns: 1;
-      }
-    }
-
-  </style>
     <app-location route="{{route}}"></app-location>
     <app-route
         route="{{route}}"
@@ -91,15 +76,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </app-toolbar>
         </app-header>
         <div class="app-grid">
-          <paper-date-picker force-narrow></paper-date-picker>
+          
           <iron-pages
               selected="[[page]]"
               attr-for-selected="name"
               fallback-selection="view404"
               role="main">
-            <my-view1 name="view1"></my-view1>
-            <my-view2 name="view2"></my-view2>
-            <my-view3 name="view3"></my-view3>
+            <my-home name="home"></my-home>
+            <my-calendar name="calendar"></my-calendar>
+            <my-admin name="admin"></my-admin>
             <my-view404 name="view404"></my-view404>
           </iron-pages>
         </div>
@@ -108,9 +93,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <app-drawer id="drawer" align="end">
         <app-toolbar>Menu</app-toolbar>
         <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
-          <a name="view1" href="/view1">View One</a>
-          <a name="view2" href="/view2">View Two</a>
-          <a name="view3" href="/view3">View Three</a>
+          <a name="home" href="/home">Home</a>
+          <a name="calendar" href="/calendar">Calendar</a>
+          <a name="admin" href="/admin">Admin</a>
         </iron-selector>
       </app-drawer>
     </app-drawer-layout>
@@ -132,7 +117,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       ],
 
       _routePageChanged: function(page) {
-        this.page = page || 'view1';
+        this.page = page || 'home';
 
         if (!this.$.drawer.persistent) {
           this.$.drawer.close();
