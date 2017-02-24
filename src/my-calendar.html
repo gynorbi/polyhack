@@ -21,23 +21,35 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         padding: 10px;
       }
+      paper-date-picker{
+        --paper-date-picker-heading:{
+          display:none!important;
+        }
+      }
     </style>
-
+    <iron-media-query query="(min-width: 1390px)" query-matches="{{showSmallCalendar}}"></iron-media-query>
     <div style="margin:auto">
-        <div width="30%" style="float: left">
-          hello
+        <paper-item id="smallCalendar" hidden$={{showSmallCalendar}}>
+          <span>[[date]]</span>
+        </paper-item>
+
+        <div style="float: left; width: 40%;" hidden$={{!showSmalllCalendar}}>
+          <paper-date-picker id="datepicker" force-narrow date={{date}}></paper-date-picker>
         </div>
-        <div style="float: right">
+        <div>
           <h1>View Two</h1>
           <p>Ea duis bonorum nec, falli paulo aliquid ei eum.</p>
           <p>Id nam odio natum malorum, tibique copiosae expetenda mel ea.Detracto suavitate repudiandae no eum. Id adhuc minim soluta nam.Id nam odio natum malorum, tibique copiosae expetenda mel ea.</p>
-        /div>
+        </div>
     </div>
   </template>
 
   <script>
     Polymer({
       is: 'my-calendar',
+      ready:function(){
+       this.$.datepicker.style.color = "red";
+      }
     });
   </script>
 </dom-module>
