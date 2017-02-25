@@ -11,7 +11,8 @@
             "month": "2",
             "week": "8",
             "name": "Sprint ending!",
-            "description": "Ut labores minimum atomorum pro. Laudem tibique ut has."
+            "description": "Ut labores minimum atomorum pro. Laudem tibique ut has.",
+            "rating":"4"
         },
         {
             "id": "2",
@@ -23,7 +24,8 @@
             "month": "2",
             "week": "8",
             "name": "Weekend party!",
-            "description": "Ut labores minimum atomorum pro. Laudem tibique ut has."
+            "description": "Ut labores minimum atomorum pro. Laudem tibique ut has.",
+            "rating":"3"
         },
         {
             "id": "6",
@@ -35,7 +37,8 @@
             "month": "2",
             "week": "8",
             "name": "Weekend party!",
-            "description": "Ut labores minimum atomorum pro. Laudem tibique ut has."
+            "description": "Ut labores minimum atomorum pro. Laudem tibique ut has.",
+            "rating":"5"
         },
         {
             "id": "3",
@@ -47,7 +50,8 @@
             "month": "2",
             "week": "9",
             "name": "Monday sucks!",
-            "description": "Ut labores minimum atomorum pro. Laudem tibique ut has."
+            "description": "Ut labores minimum atomorum pro. Laudem tibique ut has.",
+            "rating":"2"
         },
         {
             "id": "4",
@@ -59,7 +63,8 @@
             "month": "2",
             "week": "9",
             "name": "Monday sucks again!",
-            "description": "Ut labores minimum atomorum pro. Laudem tibique ut has."
+            "description": "Ut labores minimum atomorum pro. Laudem tibique ut has.",
+            "rating":"3"
         },
         {
             "id": "5",
@@ -71,7 +76,8 @@
             "month": "2",
             "week": "9",
             "name": "Tuesday sucks too!",
-            "description": "Ut labores minimum atomorum pro. Laudem tibique ut has."
+            "description": "Ut labores minimum atomorum pro. Laudem tibique ut has.",
+            "rating":"4"
         }
     ]
 }
