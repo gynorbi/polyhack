@@ -11,21 +11,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="shared-styles.html">
 <link rel="import" href="../custom_elements/my-date-picker/my-date-picker.html">
+<!--<link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">-->
 
 
 <dom-module id="my-calendar">
   <template>
+    
     <style include="shared-styles">
       :host {
         display: block;
 
         padding: 10px;
       }
-      paper-date-picker{
+      /*paper-date-picker{
         --paper-date-picker-heading:{
           display:none!important;
         }
-       }
+       }*/
           :host .card {
             text-align: center;
         }
@@ -56,21 +58,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         paper-button.green[active] {
             background-color: var(--paper-red-500);
         }
-      }
+      
     </style>
+    <iron-media-query query="(min-width: 1290px)" query-matches="{{showSmallCalendar}}"></iron-media-query>
+    
       <firebase-document id="fbDocument"
       location='https://events-list.firebaseio.com/events'
       data="{{events}}"></firebase-document>
-      
-    <iron-media-query query="(min-width: 1390px)" query-matches="{{showSmallCalendar}}"></iron-media-query>
     <div style="margin:auto">
-        <paper-item id="smallCalendar" hidden$={{showSmallCalendar}}>
+        <paper-item id="smallCalendar" hidden$="{{showSmallCalendar}}">
           <span>[[date]]</span>
         </paper-item>
 
-        <div style="float: left; width: 40%;" hidden$={{!showSmalllCalendar}}>
+        <div style="float: left; width: 40%;" hidden$="{{!showSmallCalendar}}">
           <my-date-picker id="datepicker" force-narrow date={{date}} week-mode={{_weekMode}}></my-date-picker>
         </div>
+
 
         <div style="float: right; width: 60%;max-width:563px">
             <div class="card">
@@ -100,6 +103,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     Polymer({
       is: 'my-calendar',
 
+<<<<<<< HEAD
      filterDaily: function() {
 
       this.appData = this.shadowArray;
@@ -113,6 +117,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       
      },
     filterByDay: function(value) {
+=======
+      properties:{
+        _weekMode:Boolean
+      },
+         filterDaily: function() {
+        
+          this.appData = this.shadowArray;
+          var today = (new Date()).getDate();
+          this.appData  = this.appData.filter(function(o){
+              var fromDate = new Date(o.fromDate);
+              var endDate = new Date(o.endDate);
+              var isIncluded = today === fromDate.getDate() || today === endDate.getDate();
+              return isIncluded;
+          } );
+          //this.appData = [{id:"1", name:"alfa", date:"2017-02-10", description:"test desc"}];
+      },
+        filterByDay: function(value) {
+        
+>>>>>>> 19a54393124279eb0ce75ba774efb9ae654fda12
           this.appData = this.shadowArray;
           var today = value.getDate();
           this.appData  = this.appData.filter(function(o){
