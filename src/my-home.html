@@ -14,9 +14,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <dom-module id="my-home">
   <template>
       
-      <firebase-document id="fbDocument"
-      location='https://events-list.firebaseio.com/events'
-      data="{{events}}"></firebase-document>
+      
     <style include="shared-styles">
       :host {
         display: block;
@@ -24,111 +22,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         padding: 10px;
       }
         
-        :host .card {
-            text-align: center;
-        }
         
-    paper-button.indigo {
-        background-color: var(--paper-indigo-500);
-        color: white;
-        --paper-button-raised-keyboard-focus: {
-          background-color: var(--paper-pink-a200) !important;
-          color: white !important;
-        };
-    }
-        
-    paper-button.green {
-        background-color: var(--paper-green-500);
-        color: white;   
-    }
-    paper-button.green[active] {
-        background-color: var(--paper-red-500);
-    }
     </style>
 
     
-    <div class="card">
-        <paper-button raised toggles class="custom indigo" on-tap="filterDaily">Today</paper-button>
-        <paper-button raised toggles class="custom green" on-tap="filterWeekly">Weekly</paper-button>
-      </div>
     
-      <polymer-paper-date-picker></polymer-paper-date-picker>
-       
-        <!--<firebase-collection 
-          order-by-child="date"
-          location="https://events-list.firebaseio.com/events"
-          data="{{events}}"></firebase-collection>-->
-        <template is="dom-repeat" items="[[appData]]" as="event" id="table_template">
-          
-            <div class="card">
-              <div class="circle">[[event.id]]</div>
-                  <h1>[[event.name]]</h1>
-                  <h1>[[event.date]]</h1>
-                  <p>[[event.description]]</p>
-            </div>
-        </template>
       
         
   </template>
 
   <script>
     Polymer({
-      is: 'my-home',
-      filterDaily: function() {
-        
-          var today = (new Date()).getDate();
-          this.appData  = this.appData.filter(function(o){return o.day == today.toString();} );
-          //this.appData = [{id:"1", name:"alfa", date:"2017-02-10", description:"test desc"}];
-      },
-    filterWeekly: function() {
-        
-          var weekNumber = this.getWeekNumber(true);
-          this.appData  = this.appData.filter(function(o){return o.week == weekNumber.toString();} );
-          //this.appData = [{id:"1", name:"alfa", date:"2017-02-10", description:"test desc"}];
-      },
-    getWeekNumber: function(exact) {
-        var now = new Date();
-        var month = now.getMonth()
-            , year = now.getFullYear()
-            , firstWeekday = new Date(year, month, 1).getDay()
-            , lastDateOfMonth = new Date(year, month + 1, 0).getDate()
-            , offsetDate = now.getDate() + firstWeekday - 1
-            , index = 1 // start index at 0 or 1, your choice
-            , weeksInMonth = index + Math.ceil((lastDateOfMonth + firstWeekday - 7) / 7)
-            , week = index + Math.floor(offsetDate / 7)
-        ;
-        if (exact || week < 2 + index) return week;
-        return week === weeksInMonth ? index + 5 : week;
-    },
-      properties: {
-          firebaseURL:{
-                      type: String,
-                      value: 'https://events-list.firebaseio.com/events'
-                  },
-          firebaseProvider:{
-                      type: String,
-                      value: 'anonymous'
-                  },
-          appData: {
-            type: Array,
-            notify:true,
-            observer: "_dataBound"
-          }
-      },
-      attached: function(){
-            
-            var host = this;
-
-            //Listens to the child's sharedValue. When changed it will update host's sharedValue.
-            this.$.fbDocument.addEventListener("data-changed", function(e){
-                console.log('data change triggerd');
-                host.appData = e.detail.value;
-            });
-            
-        },
-        _dataBound:function(e){
-          console.log("data bound to parent !");  
-        }
+      is: 'my-home'
+     
+      
     });
   </script>
 </dom-module>

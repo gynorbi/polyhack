@@ -25,8 +25,33 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         --paper-date-picker-heading:{
           display:none!important;
         }
+       }
+          :host .card {
+            text-align: center;
+        }
+        
+        paper-button.indigo {
+            background-color: var(--paper-indigo-500);
+            color: white;
+            --paper-button-raised-keyboard-focus: {
+              background-color: var(--paper-pink-a200) !important;
+              color: white !important;
+            };
+        }
+
+        paper-button.green {
+            background-color: var(--paper-green-500);
+            color: white;   
+        }
+        paper-button.green[active] {
+            background-color: var(--paper-red-500);
+        }
       }
     </style>
+      <firebase-document id="fbDocument"
+      location='https://events-list.firebaseio.com/events'
+      data="{{events}}"></firebase-document>
+      
     <iron-media-query query="(min-width: 1390px)" query-matches="{{showSmallCalendar}}"></iron-media-query>
     <div style="margin:auto">
         <paper-item id="smallCalendar" hidden$={{showSmallCalendar}}>
@@ -36,20 +61,104 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <div style="float: left; width: 40%;" hidden$={{!showSmalllCalendar}}>
           <paper-date-picker id="datepicker" force-narrow date={{date}}></paper-date-picker>
         </div>
-        <div>
-          <h1>View Two</h1>
-          <p>Ea duis bonorum nec, falli paulo aliquid ei eum.</p>
-          <p>Id nam odio natum malorum, tibique copiosae expetenda mel ea.Detracto suavitate repudiandae no eum. Id adhuc minim soluta nam.Id nam odio natum malorum, tibique copiosae expetenda mel ea.</p>
+        <div style="float: right; width: 60%;">
+            <div class="card">
+                <paper-button raised toggles class="custom indigo" on-tap="filterDaily">Today</paper-button>
+                <paper-button raised toggles class="custom green" on-tap="filterWeekly">Weekly</paper-button>
+            </div>
+            <template is="dom-repeat" items="[[appData]]" as="event" id="table_template">
+                <div class="card">
+                  <div class="circle">[[event.id]]</div>
+                      <h1>[[event.name]]</h1>
+                      <h1>From : [[event.fromDate]] [[event.fromHour]] to [[event.endDate]] [[event.endHour]]</h1>
+                      <p>[[event.description]]</p>
+                </div>
+            </template>
         </div>
     </div>
+      
+      
+    
+        
+      
   </template>
 
   <script>
     Polymer({
       is: 'my-calendar',
+        
       ready:function(){
        this.$.datepicker.style.color = "red";
-      }
+      },
+         filterDaily: function() {
+        
+          var today = (new Date()).getDate();
+          this.appData  = this.appData.filter(function(o){
+              var fromDate = new Date(o.fromDate);
+              var endDate = new Date(o.endDate);
+              var isIncluded = today === fromDate.getDate() || today === endDate.getDate();
+              return isIncluded;
+          } );
+          //this.appData = [{id:"1", name:"alfa", date:"2017-02-10", description:"test desc"}];
+      },
+    filterWeekly: function() {
+        
+         var weekNumber = this.getWeekNumber(true);
+          this.events  = this.events.filter(function(o){return o.week == weekNumber.toString();} );
+          //this.appData = [{id:"1", name:"alfa", date:"2017-02-10", description:"test desc"}];
+      },
+    getWeekNumber: function(exact) {
+            var now = new Date();
+            var month = now.getMonth()
+                , year = now.getFullYear()
+                , firstWeekday = new Date(year, month, 1).getDay()
+                , lastDateOfMonth = new Date(year, month + 1, 0).getDate()
+                , offsetDate = now.getDate() + firstWeekday - 1
+                , index = 1 // start index at 0 or 1, your choice
+                , weeksInMonth = index + Math.ceil((lastDateOfMonth + firstWeekday - 7) / 7)
+                , week = index + Math.floor(offsetDate / 7)
+            ;
+            if (exact || week < 2 + index) return week;
+            return week === weeksInMonth ? index + 5 : week;
+        },
+        properties: {
+          firebaseURL:{
+                      type: String,
+                      value: 'https://events-list.firebaseio.com/events'
+                  },
+          firebaseProvider:{
+                      type: String,
+                      value: 'anonymous'
+                  },
+          appData: {
+            type: Array,
+            notify:true,
+            observer: "_dataBound"
+          },
+          filterDate: {
+            type:Date,
+            notify:true
+          }
+      },
+      attached: function(){
+            
+            var host = this;
+
+            //Listens to the child's sharedValue. When changed it will update host's sharedValue.
+            this.$.fbDocument.addEventListener("data-changed", function(e){
+                
+                host.appData = e.detail.value;
+            });
+          
+          this.$.datepicker.addEventListener("date-changed", function(e){
+                host.filterDate = e.detail.value;
+              console.log('date changed to ' + host.filterDate);
+            });
+            
+        },
+        _dataBound:function(e){
+
+        }
     });
   </script>
 </dom-module>
