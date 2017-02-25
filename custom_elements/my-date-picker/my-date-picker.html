@@ -36,9 +36,9 @@
         _weekModeChanged:function(newValue,oldValue){
             this.$.datePicker.weekMode = newValue;
         },
-        _dateChanged:function(){
+        _dateChanged:function(newValue,oldValue){
             // Calculate here the week number based on this.myDate
-            this.myWeekNumer = 0;
+            //this.myWeekNumer = 0;
         }
         // ,
         // _getWeekStartDate:function(date){

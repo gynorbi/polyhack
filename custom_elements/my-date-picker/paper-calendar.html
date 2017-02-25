@@ -458,13 +458,15 @@
           }
           // If it's weekmode
           else{
-                if(dateDiff(date, this.weekStartDate) === 0){
+            var weekStartDate = this._getWeekStartDate(this.date);
+            var weekEndDate = this._getWeekEndDate(this.date);
+                if(dateDiff(date, weekStartDate) === 0){
                   cssClass += ' week-selected week-selected-start';
                 }
-                if(this.weekStartDate-date<0 && this.weekEndDate-date>0){
+                if(weekStartDate-date<0 && weekEndDate-date>0){
                   cssClass += ' week-selected';
                 }
-                if(dateDiff(date, this.weekEndDate) === 0){
+                if(dateDiff(date, weekEndDate) === 0){
                   cssClass += ' week-selected week-selected-end';
                 }
                 this.async(function() {
@@ -686,7 +688,9 @@
         if (oldValue && date.getTime && oldValue.getTime && date.getTime() === oldValue.getTime()) {
           return;
         }
-        this._updateSelection();
+        
+          this._updateSelection();
+        
       },
       _tapDay: function(event) {
         if (!this._withinValidRange(event.model.item.date)) {
