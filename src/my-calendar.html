@@ -72,10 +72,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <my-date-picker id="datepicker" force-narrow date={{date}} week-mode={{_weekMode}}></my-date-picker>
         </div>
 
-        <div style="float: right; width: 60%;">
+        <div style="float: right; width: 60%;max-width:563px">
             <div class="card">
                 <div class="container">
-                    <div>Daily</div><div style="padding-left:20px"><paper-toggle-button></paper-toggle-button></div><div>Weekly</div>
+                    <div>Daily</div><div style="padding-left:20px"><paper-toggle-button id="displaySwitch"></paper-toggle-button></div><div>Weekly</div>
                 </div>
                 
             </div>
@@ -100,28 +100,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     Polymer({
       is: 'my-calendar',
 
-      properties:{
-        _weekMode:Boolean
-      },
+     filterDaily: function() {
 
-        
-      ready:function(){
-       this.$.datepicker.style.color = "red";
-      },
-         filterDaily: function() {
-        
-          this.appData = this.shadowArray;
-          var today = (new Date()).getDate();
-          this.appData  = this.appData.filter(function(o){
-              var fromDate = new Date(o.fromDate);
-              var endDate = new Date(o.endDate);
-              var isIncluded = today === fromDate.getDate() || today === endDate.getDate();
-              return isIncluded;
-          } );
-          //this.appData = [{id:"1", name:"alfa", date:"2017-02-10", description:"test desc"}];
-      },
-        filterByDay: function(value) {
-        
+      this.appData = this.shadowArray;
+      var today = (new Date()).getDate();
+      this.appData  = this.appData.filter(function(o){
+          var fromDate = new Date(o.fromDate);
+          var endDate = new Date(o.endDate);
+          var isIncluded = today === fromDate.getDate() || today === endDate.getDate();
+          return isIncluded;
+        } );
+      
+     },
+    filterByDay: function(value) {
           this.appData = this.shadowArray;
           var today = value.getDate();
           this.appData  = this.appData.filter(function(o){
@@ -130,7 +121,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               var isIncluded = today === fromDate.getDate() || today === endDate.getDate();
               return isIncluded;
           } );
-          //this.appData = [{id:"1", name:"alfa", date:"2017-02-10", description:"test desc"}];
+          
       },
     filterWeekly: function() {
         this._weekMode = true;
@@ -168,14 +159,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
         },
         properties: {
-          firebaseURL:{
-                      type: String,
-                      value: 'https://events-list.firebaseio.com/events'
-                  },
-          firebaseProvider:{
-                      type: String,
-                      value: 'anonymous'
-                  },
+            _weekMode:Boolean,
+          
           appData: {
             type: Array,
             notify:true,
@@ -199,6 +184,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 
                 host.appData = e.detail.value;
                 host.shadowArray = e.detail.value;
+                host.filterByDay(host.$.datepicker.myDate);
             });
           
           this.$.datepicker.addEventListener("date-changed", function(e){
@@ -206,6 +192,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 host.filterByDay(host.filterDate);
               console.log('date changed to ' + host.filterDate);
             });
+            
+        },
+        ready: function () {
+            this.$.datepicker.style.color = "red";
+            this.$.datepicker.myDate = new Date().getDate();
+            this.$.displaySwitch.addEventListener('change', function () {
+                if (this.checked) {
+                  // do something if when checked
+                    console.log('checked');
+                } else {
+                  // do something if not checked
+                    console.log('unchecked');
+                }
+            }); 
+            
             
         },
         _dataBound:function(e){
