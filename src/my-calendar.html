@@ -64,7 +64,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         <div style="float: right; width: 60%;">
             <div class="card">
-                <paper-button raised toggles class="custom indigo" on-tap="filterDaily">Today</paper-button>
+                <paper-button raised toggles class="custom indigo" on-tap="filterDaily">Daily</paper-button>
                 <paper-button raised toggles class="custom green" on-tap="filterWeekly">Weekly</paper-button>
             </div>
             <template is="dom-repeat" items="[[appData]]" as="event" id="table_template">
@@ -98,7 +98,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
          filterDaily: function() {
         
+          this.appData = this.shadowArray;
           var today = (new Date()).getDate();
+          this.appData  = this.appData.filter(function(o){
+              var fromDate = new Date(o.fromDate);
+              var endDate = new Date(o.endDate);
+              var isIncluded = today === fromDate.getDate() || today === endDate.getDate();
+              return isIncluded;
+          } );
+          //this.appData = [{id:"1", name:"alfa", date:"2017-02-10", description:"test desc"}];
+      },
+        filterByDay: function(value) {
+        
+          this.appData = this.shadowArray;
+          var today = value.getDate();
           this.appData  = this.appData.filter(function(o){
               var fromDate = new Date(o.fromDate);
               var endDate = new Date(o.endDate);
@@ -109,7 +122,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
     filterWeekly: function() {
         
-         var weekNumber = this.getWeekNumber(true);
+         var weekNumber = this.getWeekNumber();
           this.events  = this.events.filter(function(o){return o.week == weekNumber.toString();} );
           //this.appData = [{id:"1", name:"alfa", date:"2017-02-10", description:"test desc"}];
       },
@@ -141,6 +154,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             notify:true,
             observer: "_dataBound"
           },
+          shadowData :{
+              type:Array,
+              notify:true
+          },
           filterDate: {
             type:Date,
             notify:true
@@ -154,16 +171,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             this.$.fbDocument.addEventListener("data-changed", function(e){
                 
                 host.appData = e.detail.value;
+                host.shadowArray = e.detail.value;
             });
           
           this.$.datepicker.addEventListener("date-changed", function(e){
                 host.filterDate = e.detail.value;
+                host.filterByDay(host.filterDate);
               console.log('date changed to ' + host.filterDate);
             });
             
         },
         _dataBound:function(e){
-
+           //this.shadowArray = JSON.parse(JSON.stringify(this.appData));
         }
     });
   </script>
