@@ -27,23 +27,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/firebase-element/firebase-collection.html">
 
 <link rel="import" href="my-icons.html">
+<link rel="import" href="shared-styles.html">
 
 <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 <link rel="import" href="../custom_elements/facebook-login/facebook-login.html">
 
 <dom-module id="my-app">
   <template>
-    <style>
+    <style include="shared-styles">
       :host {
-        --app-primary-color: #4285f4;
-        --app-secondary-color: black;
+        /*--app-primary-color: --default-primary-color;*/
+        /*--app-secondary-color: var(--accent-color, black);*/
 
         display: block;
       }
 
       app-header {
         color: #fff;
-        background-color: var(--app-primary-color);
+        background-color: var(--default-primary-color, cornflowerblue);
       }
       app-header paper-icon-button {
         --paper-icon-button-ink-color: white;
@@ -57,7 +58,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: block;
         padding: 0 16px;
         text-decoration: none;
-        color: var(--app-secondary-color);
+        color: var(--text-primary-color);
         line-height: 40px;
           text-align: left;
       }
