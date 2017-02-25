@@ -1,0 +1,72 @@
+<link rel="import" href="paper-date-picker.html">
+
+<dom-module is="my-date-picker">
+    <style include="shared-styles">
+      :host {
+        display: block;
+
+        padding: 10px;
+      }
+      paper-date-picker{
+        --paper-date-picker-heading:{
+          display:none!important;
+        }
+      }
+    </style>
+    <template>
+        <paper-date-picker id="datePicker" date={{myDate}} force-narrow></paper-date-picker>
+        <br/>
+        <span>[[startDate]]</span>-<span>[[endDate]]</span>
+    </template>
+</dom-module>
+<script>
+    Polymer({
+        is:"my-date-picker",
+        properties:{
+            myDate:{
+                type:Date,
+                observer:"_dateChanged"
+            },
+            weekMode:{
+                Type:Boolean,
+                notify:true,
+                value:true
+            },
+            startDate:{
+                type:String,
+            },
+            endDate:{
+                type:String,
+            }
+        },
+        _dateChanged:function(){
+            // if(this.weekMode){
+            //     var weekStartDate = this._getWeekStartDate(this.myDate);
+            //     var weekEndDate = this._getWeekEndDate(this.myDate);
+            //     var days = new Array(0);
+            //     while(weekStartDate<=weekEndDate){
+            //         var newDate = new Date(weekStartDate);
+            //         days.push(newDate);
+            //         weekStartDate.setDate(weekStartDate.getDate()+1);
+            //     }
+            //     this.selectDays(days);
+            // }
+        }
+        // ,
+        // _getWeekStartDate:function(date){
+        //     var newDate = new Date();
+        //     newDate.setDate(date.getDate()-date.getDay()+1);
+        //     //this.startDate= newDate.toLocaleDateString(this.$.datePicker.locale);
+        //     return newDate;
+        // },
+        // _getWeekEndDate:function(date){
+        //     var newDate = new Date();
+        //     newDate.setDate(date.getDate()-date.getDay()+7);
+        //     //this.endDate= newDate.toLocaleDateString(this.$.datePicker.locale);
+        //     return newDate;
+        // },
+        // selectDays:function(days){
+        //     this.$.datePicker.selectDays(days);
+        // }
+    });
+</script>
