@@ -14,11 +14,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <dom-module id="my-home">
   <template>
       
-      <firebase-document
-      location="https://events-list.firebaseio.com/events"
+      <firebase-document id="fbDocument"
+      location='https://events-list.firebaseio.com/events'
       data="{{events}}"></firebase-document>
-    <style include="shared-styles">
-      :host {
+    <style include="shared-styles">0
+1      :host {
         display: block;
 
         padding: 10px;
@@ -53,23 +53,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </div>
     
       <polymer-paper-date-picker></polymer-paper-date-picker>
-        <template is="dom-bind">
-        <firebase-collection
-          order-by-child="id"
+       
+        <!--<firebase-collection 
+          order-by-child="date"
           location="https://events-list.firebaseio.com/events"
-          data="{{events}}"></firebase-collection>
-        <template is="dom-repeat" items="[[events]]" as="event">
+          data="{{events}}"></firebase-collection>-->
+        <template is="dom-repeat" items="[[appData]]" as="event" id="table_template">
           
             <div class="card">
               <div class="circle">[[event.id]]</div>
                   <h1>[[event.name]]</h1>
                   <h1>[[event.date]]</h1>
                   <p>[[event.description]]</p>
-
-
             </div>
         </template>
-      </template>
+      
         
   </template>
 
@@ -77,18 +75,40 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     Polymer({
       is: 'my-home',
       handleTap: function() {
-        alert('Ow!');
+        
+          var today = (new Date()).getDate();
+          this.appData  = this.appData.filter(function(o){return o.day == today.toString();} );
+          //this.appData = [{id:"1", name:"alfa", date:"2017-02-10", description:"test desc"}];
       },
       properties: {
           firebaseURL:{
                       type: String,
-                      value: 'https://events-list.firebaseio.com/'
+                      value: 'https://events-list.firebaseio.com/events'
                   },
           firebaseProvider:{
                       type: String,
                       value: 'anonymous'
-                  }
-      }
+                  },
+          appData: {
+            type: Array,
+            notify:true,
+            observer: "_dataBound"
+          }
+      },
+      attached: function(){
+            
+            var host = this;
+
+            //Listens to the child's sharedValue. When changed it will update host's sharedValue.
+            this.$.fbDocument.addEventListener("data-changed", function(e){
+                console.log('data change triggerd');
+                host.appData = e.detail.value;
+            });
+            
+        },
+        _dataBound:function(e){
+          console.log("data bound to parent !");  
+        }
     });
   </script>
 </dom-module>
