@@ -468,8 +468,14 @@
                   cssClass += ' week-selected week-selected-end';
                 }
                 this.async(function() {
-                    this._updateSelection();
-                  });
+                  var selection = Polymer.dom(this).querySelectorAll("div");
+                 // console.log(selection);
+                  if(selection.length>0){
+                    for(var i=0; i<selection.length; i++){
+                      this._updateOneSelected(selection[i]);
+                    }
+                  }
+                });
           }
         }
         return cssClass;
@@ -718,9 +724,13 @@
                  ((this._months[0].year * 12) + this._months[0].month);
         this._translateX(-i * this._containerWidth);
       },
-      _updateSelection: function() {
+      _updateSelection:function(){
         // Force the day selection circle to maintain a 1:1 ratio
         var selected = this.$$('.day-item.selected');
+        this._updateOneSelected(selected);
+      },
+      _updateOneSelected: function(selected) {
+        
         if (!selected) {
           return;
         }
@@ -777,7 +787,8 @@
             return newDate;
         },
         _weekModeChanged : function(){
-          console.log(this.weekMode);
+          var newDate = new Date(this.date);
+          this.date = newDate;
         }
       //   ,
       // selectDays:function(daysArray){
