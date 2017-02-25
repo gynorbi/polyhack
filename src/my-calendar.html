@@ -11,7 +11,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="shared-styles.html">
 <link rel="import" href="../custom_elements/my-date-picker/my-date-picker.html">
-<!--<link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">-->
+<link rel="import" href="../bower_components/paper-rating/paper-rating.html">
+
 
 
 <dom-module id="my-calendar">
@@ -23,12 +24,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         padding: 10px;
       }
-      /*paper-date-picker{
-        --paper-date-picker-heading:{
-          display:none!important;
-        }
-       }*/
-          :host .card {
+        :host .card {
             text-align: center;
         }
         
@@ -58,6 +54,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         paper-button.green[active] {
             background-color: var(--paper-red-500);
         }
+
+        paper-rating{
+          --paper-rating-active-color:blue;
+          --paper-rating-inactive-color: grey;
+        }
+
       
     </style>
     <iron-media-query query="(min-width: 1290px)" query-matches="{{showSmallCalendar}}"></iron-media-query>
@@ -66,9 +68,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       location='https://events-list.firebaseio.com/events'
       data="{{events}}"></firebase-document>
     <div style="margin:auto">
-        <paper-item id="smallCalendar" hidden$="{{showSmallCalendar}}">
+        <div id="smallCalendar" hidden$="{{showSmallCalendar}}">
           <span>[[date]]</span>
-        </paper-item>
+        </div>
 
         <div style="float: left; width: 40%;" hidden$="{{!showSmallCalendar}}">
           <my-date-picker id="datepicker" force-narrow date={{date}} week-mode={{_weekMode}}></my-date-picker>
@@ -87,6 +89,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                       <h1>[[event.name]]</h1>
                       <h1>From : [[event.fromDate]] [[event.fromHour]] to [[event.endDate]] [[event.endHour]]</h1>
                       <p>[[event.description]]</p>
+                      <paper-rating rating=[[event.rating]] disabled></paper-rating>
                 </div>
             </template>
         </div>
