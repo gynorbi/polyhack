@@ -25,6 +25,7 @@
                 type:Date,
                 observer:"_dateChanged"
             },
+            myWeekNumer:Number,
             weekMode:{
                 Type:Boolean,
                 notify:true,
@@ -36,17 +37,8 @@
             this.$.datePicker.weekMode = newValue;
         },
         _dateChanged:function(){
-            // if(this.weekMode){
-            //     var weekStartDate = this._getWeekStartDate(this.myDate);
-            //     var weekEndDate = this._getWeekEndDate(this.myDate);
-            //     var days = new Array(0);
-            //     while(weekStartDate<=weekEndDate){
-            //         var newDate = new Date(weekStartDate);
-            //         days.push(newDate);
-            //         weekStartDate.setDate(weekStartDate.getDate()+1);
-            //     }
-            //     this.selectDays(days);
-            // }
+            // Calculate here the week number based on this.myDate
+            this.myWeekNumer = 0;
         }
         // ,
         // _getWeekStartDate:function(date){
