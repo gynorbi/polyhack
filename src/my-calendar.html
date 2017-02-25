@@ -59,7 +59,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </paper-item>
 
         <div style="float: left; width: 40%;" hidden$={{!showSmalllCalendar}}>
-          <my-date-picker id="datepicker" force-narrow date={{date}}></my-date-picker>
+          <my-date-picker id="datepicker" force-narrow date={{date}} week-mode={{_weekMode}}></my-date-picker>
         </div>
 
         <div style="float: right; width: 60%;">
@@ -89,7 +89,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       is: 'my-calendar',
 
       properties:{
-        week:false
+        _weekMode:Boolean
       },
 
         
@@ -121,7 +121,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           //this.appData = [{id:"1", name:"alfa", date:"2017-02-10", description:"test desc"}];
       },
     filterWeekly: function() {
-        
+        this._weekMode = true;
          var weekNumber = this.getWeekNumber();
           this.events  = this.events.filter(function(o){return o.week == weekNumber.toString();} );
           //this.appData = [{id:"1", name:"alfa", date:"2017-02-10", description:"test desc"}];

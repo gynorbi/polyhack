@@ -322,7 +322,7 @@
         _firstDayOfWeek: Number,
         weekMode:{
           type:Boolean,
-          value:true
+          observer:"_weekModeChanged"
         },
         weekStartDate:{
           type:Date
@@ -775,6 +775,9 @@
             newDate.setDate(date.getDate()-date.getDay()+7);
             //this.endDate= newDate.toLocaleDateString(this.$.datePicker.locale);
             return newDate;
+        },
+        _weekModeChanged : function(){
+          console.log(this.weekMode);
         }
       //   ,
       // selectDays:function(daysArray){

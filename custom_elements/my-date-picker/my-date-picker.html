@@ -14,9 +14,7 @@
       }
     </style>
     <template>
-        <paper-date-picker id="datePicker" date={{myDate}} force-narrow></paper-date-picker>
-        <br/>
-        <span>[[startDate]]</span>-<span>[[endDate]]</span>
+        <paper-date-picker id="datePicker" date={{myDate}} force-narrow week-mode={{weekMode}}></paper-date-picker>
     </template>
 </dom-module>
 <script>
@@ -30,14 +28,12 @@
             weekMode:{
                 Type:Boolean,
                 notify:true,
-                value:true
-            },
-            startDate:{
-                type:String,
-            },
-            endDate:{
-                type:String,
+                value:false,
+                //observer:"_weekModeChanged"
             }
+        },
+        _weekModeChanged:function(newValue,oldValue){
+            this.$.datePicker.weekMode = newValue;
         },
         _dateChanged:function(){
             // if(this.weekMode){
