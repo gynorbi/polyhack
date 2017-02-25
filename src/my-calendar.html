@@ -30,6 +30,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             text-align: center;
         }
         
+        :host .card .container {
+            display:flex;
+            width: 40%;
+            margin: auto;
+        }
+        
+        :host .card .container > div {
+            flex:1;
+        }
+        
         paper-button.indigo {
             background-color: var(--paper-indigo-500);
             color: white;
@@ -64,8 +74,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         <div style="float: right; width: 60%;">
             <div class="card">
-                <paper-button raised toggles class="custom indigo" on-tap="filterDaily">Daily</paper-button>
-                <paper-button raised toggles class="custom green" on-tap="filterWeekly">Weekly</paper-button>
+                <div class="container">
+                    <div>Daily</div><div style="padding-left:20px"><paper-toggle-button></paper-toggle-button></div><div>Weekly</div>
+                </div>
+                
             </div>
             <template is="dom-repeat" items="[[appData]]" as="event" id="table_template">
                 <div class="card">
@@ -122,8 +134,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
     filterWeekly: function() {
         this._weekMode = true;
-         var weekNumber = this.getWeekNumber();
-          this.events  = this.events.filter(function(o){return o.week == weekNumber.toString();} );
+         var weekNumber = this.getWeekOfYear(this.$.datepicker.myDate);
+        this.appData = this.shadowArray;
+          this.appData  = this.appData.filter(function(o)
+                        {
+                            return o.week == weekNumber.toString();
+                        } );
           //this.appData = [{id:"1", name:"alfa", date:"2017-02-10", description:"test desc"}];
       },
     getWeekNumber: function(exact) {
@@ -139,6 +155,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             ;
             if (exact || week < 2 + index) return week;
             return week === weeksInMonth ? index + 5 : week;
+        },
+    getWeekOfYear: function(value) {
+              
+              var date = new Date(value.getTime());
+              date.setHours(0, 0, 0, 0);
+              // Thursday in current week decides the year.
+              date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
+              // January 4 is always in week 1.
+              var week1 = new Date(date.getFullYear(), 0, 4);
+              // Adjust to Thursday in week 1 and count number of weeks from date to week1.
+              return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
         },
         properties: {
           firebaseURL:{
