@@ -60,6 +60,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           --paper-rating-inactive-color: grey;
         }
 
+        div.sideCalendar{
+            width:380px;
+            float:left;
+        }
+        div#mainContent.sideCalendarView{
+            margin-left:380px;
+            width:auto;
+        }
+        div#mainContent.showSmallCalendarView{
+            margin-left:0px;
+            width:auto;
+        }
+
       
     </style>
     <iron-media-query query="(min-width: 1290px)" query-matches="{{showSmallCalendar}}"></iron-media-query>
@@ -72,12 +85,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <span>[[date]]</span>
         </div>
 
-        <div style="float: left; width: 40%;" hidden$="{{!showSmallCalendar}}">
+        <div class="sideCalendar" hidden$="{{!showSmallCalendar}}">
           <my-date-picker id="datepicker" force-narrow date={{date}} week-mode={{_weekMode}}></my-date-picker>
         </div>
 
 
-        <div style="float: right; width: 60%;">
+        <div id="mainContent" class$="{{_computeCalendarCSS(showSmallCalendar)}}">
             <div class="card">
                 <div class="container">
                     <div>Daily</div><div style="padding-left:20px"><paper-toggle-button checked="{{_weekMode}}" id="displaySwitch"></paper-toggle-button></div><div>Weekly</div>
@@ -105,6 +118,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <script>
     Polymer({
       is: 'my-calendar',
+      _computeCalendarCSS:function(showSmallCalendar){
+          // Don't ask me why we need the negation here
+          if(!showSmallCalendar){
+            return "showSmallCalendarView";
+          }
+          else{
+            return "sideCalendarView";
+          }
+      },
          filterDaily: function() {
         
           this.appData = this.shadowArray;
