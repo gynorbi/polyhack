@@ -48,8 +48,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     
     <div class="card">
-        <paper-button raised toggles class="custom indigo" on-tap="handleTap">Today</paper-button>
-        <paper-button raised toggles class="custom green">Weekly</paper-button>
+        <paper-button raised toggles class="custom indigo" on-tap="filterDaily">Today</paper-button>
+        <paper-button raised toggles class="custom green" on-tap="filterWeekly">Weekly</paper-button>
       </div>
     
       <polymer-paper-date-picker></polymer-paper-date-picker>
@@ -74,12 +74,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <script>
     Polymer({
       is: 'my-home',
-      handleTap: function() {
+      filterDaily: function() {
         
           var today = (new Date()).getDate();
           this.appData  = this.appData.filter(function(o){return o.day == today.toString();} );
           //this.appData = [{id:"1", name:"alfa", date:"2017-02-10", description:"test desc"}];
       },
+    filterWeekly: function() {
+        
+          var weekNumber = this.getWeekNumber(true);
+          this.appData  = this.appData.filter(function(o){return o.week == weekNumber.toString();} );
+          //this.appData = [{id:"1", name:"alfa", date:"2017-02-10", description:"test desc"}];
+      },
+    getWeekNumber: function(exact) {
+        var now = new Date();
+        var month = now.getMonth()
+            , year = now.getFullYear()
+            , firstWeekday = new Date(year, month, 1).getDay()
+            , lastDateOfMonth = new Date(year, month + 1, 0).getDate()
+            , offsetDate = now.getDate() + firstWeekday - 1
+            , index = 1 // start index at 0 or 1, your choice
+            , weeksInMonth = index + Math.ceil((lastDateOfMonth + firstWeekday - 7) / 7)
+            , week = index + Math.floor(offsetDate / 7)
+        ;
+        if (exact || week < 2 + index) return week;
+        return week === weeksInMonth ? index + 5 : week;
+    },
       properties: {
           firebaseURL:{
                       type: String,
