@@ -1,0 +1,35 @@
+{
+   
+    "events": [      
+        {
+            "id": "1",
+            "date": "2017-02-23 09:00:00",
+            "name": "Sprint ending!",
+            "description": "Ut labores minimum atomorum pro. Laudem tibique ut has."
+        },
+        {
+            "id": "2",
+            "date": "2017-02-24 09:00:00",
+            "name": "Weekend party!",
+            "description": "Ut labores minimum atomorum pro. Laudem tibique ut has."
+        },
+        {
+            "id": "3",
+            "date": "2017-02-26 09:00:00",
+            "name": "Monday sucks!",
+            "description": "Ut labores minimum atomorum pro. Laudem tibique ut has."
+        },
+        {
+            "id": "4",
+            "date": "2017-02-26 11:00:00",
+            "name": "Monday sucks again!",
+            "description": "Ut labores minimum atomorum pro. Laudem tibique ut has."
+        },
+        {
+            "id": "5",
+            "date": "2017-02-27 09:00:00",
+            "name": "Tuesday sucks too!",
+            "description": "Ut labores minimum atomorum pro. Laudem tibique ut has."
+        }
+    ]
+}

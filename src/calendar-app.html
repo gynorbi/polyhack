@@ -19,8 +19,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/app-route/app-route.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/firebase-element/firebase-auth.html">
+<link rel="import" href="../bower_components/firebase-element/firebase-document.html">
+<link rel="import" href="../bower_components/firebase-element/firebase-collection.html">
+
 <link rel="import" href="my-icons.html">
+
+<script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+<link rel="import" href="../custom_elements/facebook-login/facebook-login.html">
 
 <dom-module id="my-app">
   <template>
@@ -50,6 +58,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         text-decoration: none;
         color: var(--app-secondary-color);
         line-height: 40px;
+          text-align: left;
       }
 
       .drawer-list a.iron-selected {
@@ -73,6 +82,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <app-toolbar>
             <div main-title>Event organizer</div>
             <paper-icon-button icon="my-icons:menu" drawer-toggle></paper-icon-button>
+              
           </app-toolbar>
         </app-header>
         <div class="app-grid">
@@ -92,7 +102,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
        <!-- Drawer content -->
       <app-drawer id="drawer" align="end">
         <app-toolbar>Menu</app-toolbar>
+        <facebook-login
+            appid="1207712876014969"
+            button-size="small"
+            logout-link
+            graph-url="me?fields=first_name,last_name,email,birthday"
+            scope="public_profile email user_birthday"
+            graph-response="{{resp}}"
+            auto-api-call>
+        </facebook-login>
         <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
+            <style>
+                 :root {
+                    --shared-background-color: #bada55;
+                }
+            </style>
           <a name="home" href="/home">Home</a>
           <a name="calendar" href="/calendar">Calendar</a>
           <a name="admin" href="/admin">Admin</a>
