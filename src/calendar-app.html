@@ -153,11 +153,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           reflectToAttribute: true,
           observer: '_pageChanged',
         },
+        isLoggedIn: {
+            type:Boolean,
+            value: function() {
+                return this.resp !== 'undefined' && this.resp !==null;
+            },
+            observer:'_loginChanged'
+        },
+        listeners: {
+                    'signin-success': '_loggedON',
+                    'signin-not-logged-in': '_notLoggedON'
+                }
       },
       observers: [
         '_routePageChanged(routeData.page)',
       ],
-
+        
       _routePageChanged: function(page) {
         this.page = page || 'calendar';
 
@@ -171,10 +182,29 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var resolvedPageUrl = this.resolveUrl('my-' + page + '.html');
         this.importHref(resolvedPageUrl, null, this._showPage404, true);
       },
-
+        ready: function() {
+            document.addEventListener("loggedOn", function (e) {
+                console.log("Integrated with facebook");
+                this._loggedOnFacebook= true;
+            });
+            
+            document.addEventListener("not-loggedOn", function (e) {
+                console.log("Integrated with facebook");
+                this._loggedOnFacebook= false;
+            });
+            
+        },
       _showPage404: function() {
         this.page = 'view404';
       },
+        
+        
+        _loggedON: function() {
+            console.log("Integrated with facebook");
+        },
+        _notLoggedON : function() {
+            console.log("Not logged on with facebook");
+        }
     });
   </script>
 </dom-module>

@@ -253,13 +253,21 @@ Polymer({
 
       FB.XFBML.parse(_this2.$['fb-login-container']);
 
+      var eventToFire = 'not-loggedOn';
       FB.customCheckLoginState = function () {
         FB.getLoginStatus(function (response) {
           _this2._statusChangeCallback(response);
+            if(response.status==='connected') {
+               eventToFire = 'loggedOn';
+            }
+            
         });
       };
 
+        FB.customCheckLoginState();
+        
       _this2._ready = true;
+        _this2.fire(eventToFire);
       _this2.fire('ready');
     };
 

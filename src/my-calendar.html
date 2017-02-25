@@ -90,7 +90,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                       <h1>[[event.name]]</h1>
                       <h1>From : [[event.fromDate]] [[event.fromHour]] to [[event.endDate]] [[event.endHour]]</h1>
                       <p>[[event.description]]</p>
-                      <paper-rating rating=[[event.rating]] disabled></paper-rating>
+                      <paper-rating rating=[[event.rating]] disabled=[[_loggedOnFacebook]]></paper-rating>
                 </div>
             </template>
         </div>
@@ -167,6 +167,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             type:Boolean,
             observer: "_weekModeChanged"
                        },
+           _loggedOnFacebook: {
+                type:Boolean,
+               notify:true,
+               value:false
+           },
           appData: {
             type: Array,
             notify:true,
@@ -216,6 +221,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 } 
             }); 
             
+           document.addEventListener("signin-success", function (e) {
+                console.log("Integrated with facebook");
+                this._loggedOnFacebook= true;
+            });
+            
+            document.addEventListener("loggedOn", function (e) {
+                console.log("Integrated with facebook");
+                this._loggedOnFacebook= true;
+            });
+            
+            document.addEventListener("not-loggedOn", function (e) {
+                console.log("Integrated with facebook");
+                this._loggedOnFacebook= false;
+            });
             
         },
         _dataBound:function(e){
