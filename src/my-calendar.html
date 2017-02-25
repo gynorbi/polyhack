@@ -218,7 +218,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           
           this.$.datepicker.addEventListener("date-changed", function(e){
                 host.filterDate = e.detail.value;
-                host.filterByDay(host.filterDate);
+              if(host._weekMode) {
+                host.filterWeekly();
+              }
+              else
+              {
+                  host.filterByDay(host.filterDate);
+              }
             });
             
         },
