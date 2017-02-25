@@ -11,21 +11,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="shared-styles.html">
 <link rel="import" href="../custom_elements/my-date-picker/my-date-picker.html">
+<!--<link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">-->
 
 
 <dom-module id="my-calendar">
   <template>
+    
     <style include="shared-styles">
       :host {
         display: block;
 
         padding: 10px;
       }
-      paper-date-picker{
+      /*paper-date-picker{
         --paper-date-picker-heading:{
           display:none!important;
         }
-       }
+       }*/
           :host .card {
             text-align: center;
         }
@@ -56,23 +58,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         paper-button.green[active] {
             background-color: var(--paper-red-500);
         }
-      }
+      
     </style>
+    <iron-media-query query="(min-width: 1290px)" query-matches="{{showSmallCalendar}}"></iron-media-query>
+    
       <firebase-document id="fbDocument"
       location='https://events-list.firebaseio.com/events'
       data="{{events}}"></firebase-document>
-      
-    <iron-media-query query="(min-width: 1390px)" query-matches="{{showSmallCalendar}}"></iron-media-query>
     <div style="margin:auto">
-        <paper-item id="smallCalendar" hidden$={{showSmallCalendar}}>
+        <paper-item id="smallCalendar" hidden$="{{showSmallCalendar}}">
           <span>[[date]]</span>
         </paper-item>
 
-        <div style="float: left; width: 40%;" hidden$={{!showSmalllCalendar}}>
+        <div style="float: left; width: 40%;" hidden$="{{!showSmallCalendar}}">
           <my-date-picker id="datepicker" force-narrow date={{date}} week-mode={{_weekMode}}></my-date-picker>
         </div>
 
-        <div style="float: right; width: 60%;">
+        <div style="width: auto;">
             <div class="card">
                 <div class="container">
                     <div>Daily</div><div style="padding-left:20px"><paper-toggle-button></paper-toggle-button></div><div>Weekly</div>
@@ -102,11 +104,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       properties:{
         _weekMode:Boolean
-      },
-
-        
-      ready:function(){
-       this.$.datepicker.style.color = "red";
       },
          filterDaily: function() {
         
