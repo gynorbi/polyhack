@@ -468,8 +468,7 @@
                   cssClass += ' week-selected week-selected-end';
                 }
                 this.async(function() {
-                  var selection = Polymer.dom(this).querySelectorAll("div");
-                 // console.log(selection);
+                  var selection = this.$$("#months").querySelectorAll(".week-selected");
                   if(selection.length>0){
                     for(var i=0; i<selection.length; i++){
                       this._updateOneSelected(selection[i]);
@@ -736,8 +735,8 @@
         }
         selected.style.height = '';
         selected.style.width = '';
-        var w = selected.parentElement.offsetWidth;
-        var h = selected.parentElement.offsetHeight;
+        var w = 45;// selected.parentElement.offsetWidth;
+        var h = 45;//selected.parentElement.offsetHeight;
         selected.style.flex = '';
         window.requestAnimationFrame(function() {
           if (w > 0 && w < h) {
