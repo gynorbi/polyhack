@@ -37,6 +37,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         :host .card .container > div {
             flex:1;
         }
+
+        paper-toggle-button{
+            --paper-toggle-button-checked-bar-color: var(--default-primary-color, grey);
+            --paper-toggle-button-checked-button-color: var(--accent-color, blue);
+        }
         
         paper-button.indigo {
             background-color: var(--paper-indigo-500);
@@ -56,8 +61,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
 
         paper-rating{
-          --paper-rating-active-color:blue;
-          --paper-rating-inactive-color: grey;
+          --paper-rating-active-color:var(--accent-color,blue);
+          --paper-rating-inactive-color:var(--disabled-text-color, grey);
         }
 
         div.sideCalendar{
